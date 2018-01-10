@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
 public class Resposta {
 	private String procurar;
-	private Animal resposta;
+	private String resposta;
 	private ArrayList<Animal> respostas = new ArrayList<Animal>();
 	private ArrayList<Pergunta> perguntas = new ArrayList<Pergunta>();
 	
 	
-	public void procurarResposta() {
+	public String procurarResposta() {
 		ArrayList<Animal> animais = new ArrayList<Animal>();
-		Map<String,Boolean> atributos1 = new HashMap<>();
 		Pergunta p1 = new Pergunta("Tem rabo?");
 		perguntas.add(p1);
 		Pergunta p2 = new Pergunta("Tem 4 patas?");
@@ -24,6 +21,11 @@ public class Resposta {
 		perguntas.add(p3);
 		Pergunta p4 = new Pergunta("Ele late?");
 		perguntas.add(p4);
+		Pergunta p5 = new Pergunta("Ele mia?");
+		perguntas.add(p5);
+		
+		
+		Map<String,Boolean> atributos1 = new HashMap<>();
 		atributos1.put(p1.getPergunta(), true);
 		atributos1.put(p2.getPergunta(), true);
 		atributos1.put(p3.getPergunta(), true);
@@ -31,24 +33,56 @@ public class Resposta {
 		Animal a1 = new Animal("Cachorro", atributos1);		
 		animais.add(a1);
 		
+		Map<String,Boolean> atributos2 = new HashMap<>();
+		atributos2.put(p1.getPergunta(), true);
+		atributos2.put(p2.getPergunta(), true);
+		atributos2.put(p3.getPergunta(), true);
+		atributos2.put(p5.getPergunta(), true);
+		Animal a2 = new Animal("Gato", atributos2);
+		animais.add(a2);
+		
+		this.respostas = animais;
 		
 		for(Pergunta pergunta : perguntas) {
-			System.out.print(pergunta.getPergunta());
-			for(Animal animal : animais) {
+			System.out.println(pergunta.getPergunta());
+			for(Animal animal : this.respostas) {				
 				Map<String, Boolean> atributos = animal.getAtributos();
 				if(atributos.containsKey(pergunta.getPergunta())) {
-					System.out.println(" Sim!");
-					if(!this.respostas.contains(animal)) {
-						this.respostas.add(animal);
-					}
+					System.out.println("\tSim!");
+
 				}else {
 					this.respostas.remove(animal);
 				}
+				if(respostas.size() == 1) {
+					System.out.println("---- É um " + getProcurar() + "? ----");
+					//setResposta(this.respostas.get(0));
+					return this.respostas.get(0).getNome();
+				}
 			}
 		}
-		System.out.println("---- É um Cachorro? ----");
-		setResposta(this.respostas.get(0));
+		
+		return null;
 	}
+		
+//		for(Pergunta pergunta : perguntas) {
+//			System.out.println(pergunta.getPergunta());
+//			for(Animal animal : animais) {
+//				Map<String, Boolean> atributos = animal.getAtributos();
+//				if(atributos.containsKey(pergunta.getPergunta())) {
+//					System.out.println(" Sim!");
+//					if(!this.respostas.contains(animal)) {
+//						this.respostas.add(animal);
+//					}
+//				}else {
+//					this.respostas.remove(animal);
+//					if(respostas.size() == 1) {
+//						System.out.println("---- É um " + getProcurar() + "? ----");
+//						setResposta(this.respostas.get(0));
+//					}
+//				}
+//			}
+//		}
+		
 	
 	public String exibirResposta(String animal) {
 		return this.procurar;
@@ -62,12 +96,12 @@ public class Resposta {
 		this.procurar = procurar;
 	}
 
-	public Animal getResposta() {
+	public String getResposta() {
 		return resposta;
 	}
 
-	public void setResposta(Animal resposta) {
-		this.resposta = resposta;
+	public void setResposta() {
+		this.resposta = procurarResposta();
 	}
 	
 }

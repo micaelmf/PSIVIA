@@ -12,13 +12,13 @@ class Teste {
 	@Test
 	void esperaRespostaCachorro() {
 		Resposta resposta = new Resposta();
-		resposta.setProcurar("Cachorro");
 		
 		Animal animal = new Animal("Cachorro");
-		resposta.procurarResposta();
-		Animal retorno = resposta.getResposta(); 
+		resposta.setProcurar(animal.getNome());
+		resposta.setResposta();
+		String retorno = resposta.getResposta();  
 		
-		assertEquals("Cachorro", retorno.getNome());
+		assertEquals(animal.getNome(), retorno);
 	}
-
+	
 }
