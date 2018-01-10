@@ -10,8 +10,12 @@ class Teste {
 
 	@Test
 	void esperaRespostaCachorro() {
+		String procurar = "Cachorro";
+		
 		Resposta resposta = new Resposta();
-		String retorno = resposta.resposta("Cachorro"); 
+		resposta.setProcurar(procurar);
+		
+		String retorno = resposta.exibirResposta("Cachorro"); 
 		assertEquals("Cachorro", retorno);
 	}
 
