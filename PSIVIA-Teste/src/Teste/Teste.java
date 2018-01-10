@@ -2,17 +2,21 @@ package Teste;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 
-import Dominio.Calculadora;
+import Dominio.Animal;
+import Dominio.Perguntas;
+import Dominio.Resposta;
 
 class Teste {
 
 	@Test
-	void test() {
-		Calculadora c = new Calculadora();
-		int retorno = c.mostrar();
-		assertEquals(0, retorno);
+	void esperaRespostaCachorro() {
+		Resposta resposta = new Resposta();
+		String retorno = resposta.resposta("Cachorro"); 
+		assertEquals("Cachorro", retorno);
 	}
 
 }
