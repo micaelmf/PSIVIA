@@ -2,12 +2,8 @@ package Teste;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Test;
 
-import Dominio.Animal;
-import Dominio.Perguntas;
 import Dominio.Resposta;
 
 class Teste {
