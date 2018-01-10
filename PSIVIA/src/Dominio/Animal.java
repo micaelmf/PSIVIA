@@ -28,5 +28,13 @@ public class Animal {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public Map<String, Boolean> getAtributos() {
+		return atributos;
+	}
+
+	public void setAtributos(Map<String, Boolean> atributos) {
+		this.atributos = atributos;
+	}
 	
 }
