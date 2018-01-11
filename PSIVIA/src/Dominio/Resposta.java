@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import DAO.AnimalDAO;
+import DAO.PerguntaDAO;
+
 public class Resposta {
 	private String procurar;
 	private String resposta;
@@ -13,62 +16,41 @@ public class Resposta {
 	
 	
 	public String procurarResposta(Map<String,Boolean> atributosProcurados) {
-		ArrayList<Animal> animais = new ArrayList<Animal>();
-		Pergunta p1 = new Pergunta("Tem rabo?");
-		perguntas.add(p1);
-		Pergunta p2 = new Pergunta("Tem 4 patas?");
-		perguntas.add(p2);
-		Pergunta p3 = new Pergunta("Tem pêlos?");
-		perguntas.add(p3);
-		Pergunta p4 = new Pergunta("Ele late?");
-		perguntas.add(p4);
-		Pergunta p5 = new Pergunta("Ele mia?");
-		perguntas.add(p5);
+		PerguntaDAO daoPergunta = new PerguntaDAO();
+		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
 		
+		AnimalDAO daoAnimal = new AnimalDAO();
+		ArrayList<Animal> animais = daoAnimal.carregaAnimais();
 		
-		Map<String,Boolean> atributos1 = new LinkedHashMap<>();
-		atributos1.put(p1.getPergunta(), true);
-		atributos1.put(p2.getPergunta(), true);
-		atributos1.put(p3.getPergunta(), true);
-		atributos1.put(p4.getPergunta(), true);
-		Animal a1 = new Animal("Cachorro", atributos1);		
-		animais.add(a1);
-		
-		Map<String,Boolean> atributos2 = new LinkedHashMap<>();
-		atributos2.put(p1.getPergunta(), true);
-		atributos2.put(p2.getPergunta(), true);
-		atributos2.put(p3.getPergunta(), true);
-		atributos2.put(p5.getPergunta(), true);
-		Animal a2 = new Animal("Gato", atributos2);
-		animais.add(a2);
-		
-		this.respostas = animais;
 		int i = 0;
 		for(Map.Entry<String, Boolean> entry : atributosProcurados.entrySet()) {
 			System.out.println("Pergunta: " + perguntas.get(i).getPergunta());
-			for(Animal animal : this.respostas) {
-				//System.out.println("Chave - Valor: " + entry.getKey() + entry.getValue());
+			ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
+			for(Animal animal : animais) {
 				Map<String, Boolean> atributos = animal.getAtributos();
 				if(atributos.containsKey(perguntas.get(i).getPergunta())) {
 					if(entry.getValue() == true) {
 						System.out.println("\tSim");
 					}else {
 						System.out.println("\tNão");
-						this.respostas.remove(animal);
-					}
-					if(respostas.size() == 1) {
-						System.out.println("---- É um " + getProcurar() + "? ----");
-						return this.respostas.get(0).getNome();
+						animaisAux.remove(animal);
 					}
 				}
 			}
+			animais = animaisAux;
 			i++;
 		}
-		if(respostas.size() >= 2) {
+		this.respostas = animais;
+		
+		if(respostas.size() == 1) {
+			System.out.println("---- É um " + getProcurar() + "? ----");
+			return this.respostas.get(0).getNome();//
+		}
+		if(respostas.size() >= 2) {//
 			System.out.println("---- É um " + this.respostas.get(0).getNome() + "? ----");
 			return this.respostas.get(0).getNome();
 		}
-		if(respostas.isEmpty() && resposta == null) {
+		if(respostas.isEmpty() && resposta == null) {//
 			System.out.println("---- É um Duiker-zebrado? ----");
 			return "Duiker-zebrado";
 		}
