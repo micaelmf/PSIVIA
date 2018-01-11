@@ -45,30 +45,29 @@ public class Resposta {
 		this.respostas = animais;
 		int i = 0;
 		for(Map.Entry<String, Boolean> entry : atributosProcurados.entrySet()) {
+			System.out.println("Pergunta: " + perguntas.get(i).getPergunta());
 			for(Animal animal : this.respostas) {
-				System.out.println("Chave - Valor: " + entry.getKey() + entry.getValue());
-				System.out.println("Pergunta: " + perguntas.get(i).getPergunta());
+				//System.out.println("Chave - Valor: " + entry.getKey() + entry.getValue());
 				Map<String, Boolean> atributos = animal.getAtributos();
 				if(atributos.containsKey(perguntas.get(i).getPergunta())) {
 					if(entry.getValue() == true) {
 						System.out.println("\tSim");
 					}else {
+						System.out.println("\tNão");
 						this.respostas.remove(animal);
 					}
 					if(respostas.size() == 1) {
 						System.out.println("---- É um " + getProcurar() + "? ----");
 						return this.respostas.get(0).getNome();
 					}
-					if(respostas.isEmpty()) {
-						System.out.println("---- É um Duiker-zebrado? ----");
-						return "Duiker-zebrado";
-					}
 				}
 			}
-					
 			i++;
 		}
-		
+		if(respostas.size() >= 2 ) {
+			System.out.println("---- É um " + this.respostas.get(0).getNome() + "? ----");
+			return this.respostas.get(0).getNome();
+		}
 		return null;
 	}
 		
