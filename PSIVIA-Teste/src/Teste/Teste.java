@@ -21,4 +21,15 @@ class Teste {
 		assertEquals(animal.getNome(), retorno);
 	}
 	
+	@Test
+	void esperaRespostaGato() {
+		Resposta resposta = new Resposta();
+		
+		Animal animal = new Animal("Gato");
+		resposta.setProcurar(animal.getNome());
+		resposta.setResposta();
+		String retorno = resposta.getResposta();  
+		
+		assertEquals(animal.getNome(), retorno);
+	}
 }

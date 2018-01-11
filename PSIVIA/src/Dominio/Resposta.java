@@ -64,26 +64,6 @@ public class Resposta {
 		return null;
 	}
 		
-//		for(Pergunta pergunta : perguntas) {
-//			System.out.println(pergunta.getPergunta());
-//			for(Animal animal : animais) {
-//				Map<String, Boolean> atributos = animal.getAtributos();
-//				if(atributos.containsKey(pergunta.getPergunta())) {
-//					System.out.println(" Sim!");
-//					if(!this.respostas.contains(animal)) {
-//						this.respostas.add(animal);
-//					}
-//				}else {
-//					this.respostas.remove(animal);
-//					if(respostas.size() == 1) {
-//						System.out.println("---- É um " + getProcurar() + "? ----");
-//						setResposta(this.respostas.get(0));
-//					}
-//				}
-//			}
-//		}
-		
-	
 	public String exibirResposta(String animal) {
 		return this.procurar;
 	}
