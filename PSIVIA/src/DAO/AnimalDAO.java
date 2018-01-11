@@ -43,6 +43,48 @@ public class AnimalDAO {
 		}
 	}
 	
+	public Animal carregaAnimal(Animal animal){
+		File dir = new File("C:\\PSIVIA18-1"); 
+		File arq = new File(dir, "dados-animais.txt");
+
+	    try {
+	        FileReader fileReader = new FileReader(arq);
+	        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+	        String linha = "";
+	        Animal a = null;
+	        while ((linha = bufferedReader.readLine()) != null) {
+	        	String[] registro = linha.split(Pattern.quote("|"));
+
+	        	String nomeAnimal = null;
+	        	Map<String,Boolean> atributos = new LinkedHashMap<>();
+	        	if(registro[0].equals(animal.getNome())) {
+	        		for(int i=0; i < registro.length ;i++) {
+		        		if(i == 0) {
+		        			nomeAnimal = registro[0];
+		        		}else {
+		        			String atributosString = registro[i];
+		        			String[] chaveValor = atributosString.split(Pattern.quote("-"));
+		        			String chave = chaveValor[0];
+		        			boolean valor = Boolean.parseBoolean(chaveValor[1]);
+		        			
+	        				atributos.put(chave,valor);
+		        		}
+		        	}
+	        	}
+	        	a = new Animal(nomeAnimal,atributos);
+	        }
+	        
+	        fileReader.close();
+	        bufferedReader.close();
+	        return a;
+	        
+		} catch (IOException e) {
+	    	//e.printStackTrace();
+	    	return null;
+	    }
+	}
+	
 	public ArrayList<Animal> carregaAnimais(){
 		File dir = new File("C:\\PSIVIA18-1"); 
 		File arq = new File(dir, "dados-animais.txt");
