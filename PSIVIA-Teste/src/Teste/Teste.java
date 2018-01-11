@@ -130,14 +130,6 @@ class Teste {
 		resposta.setResposta(atributos);
 		String retorno = resposta.getResposta();   
 		
-		if(retorno != animal.getNome()) {
-			//persistir nova pergunta e resposta
-			
-//			Pergunta p6 = new Pergunta("Dá leite?");
-//			perguntas.add(p6);
-//			atributos.put(p6.getPergunta(), true);
-		}
-		
-		assertEquals(animal.getNome(), retorno);
+		assertEquals("Duiker-zebrado", retorno);
 	}
 }
