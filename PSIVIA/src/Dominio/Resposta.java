@@ -64,9 +64,13 @@ public class Resposta {
 			}
 			i++;
 		}
-		if(respostas.size() >= 2 ) {
+		if(respostas.size() >= 2) {
 			System.out.println("---- É um " + this.respostas.get(0).getNome() + "? ----");
 			return this.respostas.get(0).getNome();
+		}
+		if(respostas.isEmpty() && resposta == null) {
+			System.out.println("---- É um Duiker-zebrado? ----");
+			return "Duiker-zebrado";
 		}
 		return null;
 	}

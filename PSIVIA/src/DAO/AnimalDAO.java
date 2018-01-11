@@ -79,7 +79,7 @@ public class AnimalDAO {
 	        return animais;
 	        
 		} catch (IOException e) {
-	    	e.printStackTrace();
+	    	//e.printStackTrace();
 	    	return null;
 	    }
 	}

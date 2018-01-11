@@ -14,9 +14,7 @@ public class Animal {
 	
 	public Animal(String nome, Map<String, Boolean> atributos) {
 		this.nome = nome;
-		this.atributos = new HashMap<>();
-		Map<String, Boolean> aux = atributos;
-		this.atributos.putAll(aux);
+		setAtributos(atributos);
 	}
 	
 	public void setAtributo(String chave, boolean valor) {
