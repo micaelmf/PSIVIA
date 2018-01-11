@@ -105,7 +105,7 @@ class Teste {
 	}
 	
 	@Test
-	void retornaNenhumAnimal() {
+	void esperaAnimalDiferenteDoProcurado() {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
