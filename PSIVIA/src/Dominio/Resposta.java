@@ -57,8 +57,11 @@ public class Resposta {
 					}
 					if(respostas.size() == 1) {
 						System.out.println("---- É um " + getProcurar() + "? ----");
-						//setResposta(this.respostas.get(0));
 						return this.respostas.get(0).getNome();
+					}
+					if(respostas.isEmpty()) {
+						System.out.println("---- É um Duiker-zebrado? ----");
+						return "Duiker-zebrado";
 					}
 				}
 			}
