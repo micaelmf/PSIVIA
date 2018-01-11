@@ -2,6 +2,7 @@ package Dominio;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Resposta {
@@ -11,7 +12,7 @@ public class Resposta {
 	private ArrayList<Pergunta> perguntas = new ArrayList<Pergunta>();
 	
 	
-	public String procurarResposta() {
+	public String procurarResposta(Map<String,Boolean> atributosProcurados) {
 		ArrayList<Animal> animais = new ArrayList<Animal>();
 		Pergunta p1 = new Pergunta("Tem rabo?");
 		perguntas.add(p1);
@@ -25,7 +26,7 @@ public class Resposta {
 		perguntas.add(p5);
 		
 		
-		Map<String,Boolean> atributos1 = new HashMap<>();
+		Map<String,Boolean> atributos1 = new LinkedHashMap<>();
 		atributos1.put(p1.getPergunta(), true);
 		atributos1.put(p2.getPergunta(), true);
 		atributos1.put(p3.getPergunta(), true);
@@ -33,7 +34,7 @@ public class Resposta {
 		Animal a1 = new Animal("Cachorro", atributos1);		
 		animais.add(a1);
 		
-		Map<String,Boolean> atributos2 = new HashMap<>();
+		Map<String,Boolean> atributos2 = new LinkedHashMap<>();
 		atributos2.put(p1.getPergunta(), true);
 		atributos2.put(p2.getPergunta(), true);
 		atributos2.put(p3.getPergunta(), true);
@@ -42,23 +43,27 @@ public class Resposta {
 		animais.add(a2);
 		
 		this.respostas = animais;
-		
-		for(Pergunta pergunta : perguntas) {
-			System.out.println(pergunta.getPergunta());
-			for(Animal animal : this.respostas) {				
+		int i = 0;
+		for(Map.Entry<String, Boolean> entry : atributosProcurados.entrySet()) {
+			for(Animal animal : this.respostas) {
+				System.out.println("Chave - Valor: " + entry.getKey() + entry.getValue());
+				System.out.println("Pergunta: " + perguntas.get(i).getPergunta());
 				Map<String, Boolean> atributos = animal.getAtributos();
-				if(atributos.containsKey(pergunta.getPergunta())) {
-					System.out.println("\tSim!");
-
-				}else {
-					this.respostas.remove(animal);
-				}
-				if(respostas.size() == 1) {
-					System.out.println("---- É um " + getProcurar() + "? ----");
-					//setResposta(this.respostas.get(0));
-					return this.respostas.get(0).getNome();
+				if(atributos.containsKey(perguntas.get(i).getPergunta())) {
+					if(entry.getValue() == true) {
+						System.out.println("\tSim");
+					}else {
+						this.respostas.remove(animal);
+					}
+					if(respostas.size() == 1) {
+						System.out.println("---- É um " + getProcurar() + "? ----");
+						//setResposta(this.respostas.get(0));
+						return this.respostas.get(0).getNome();
+					}
 				}
 			}
+					
+			i++;
 		}
 		
 		return null;
@@ -80,8 +85,8 @@ public class Resposta {
 		return resposta;
 	}
 
-	public void setResposta() {
-		this.resposta = procurarResposta();
+	public void setResposta(Map<String,Boolean> atributos) {
+		this.resposta = procurarResposta(atributos);
 	}
 	
 }
