@@ -53,11 +53,11 @@ public class AnimalDAO {
 
 	        String linha = "";
 	        Animal a = null;
+	        String nomeAnimal = null;
+	        Map<String,Boolean> atributos = new LinkedHashMap<>();
 	        while ((linha = bufferedReader.readLine()) != null) {
 	        	String[] registro = linha.split(Pattern.quote("|"));
 
-	        	String nomeAnimal = null;
-	        	Map<String,Boolean> atributos = new LinkedHashMap<>();
 	        	if(registro[0].equals(animal.getNome())) {
 	        		for(int i=0; i < registro.length ;i++) {
 		        		if(i == 0) {
@@ -72,8 +72,8 @@ public class AnimalDAO {
 		        		}
 		        	}
 	        	}
-	        	a = new Animal(nomeAnimal,atributos);
 	        }
+	        a = new Animal(nomeAnimal,atributos);
 	        
 	        fileReader.close();
 	        bufferedReader.close();
