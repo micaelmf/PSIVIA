@@ -1,0 +1,4 @@
+Vaca|Tem rabo?-true|Tem 4 patas?-true|Tem pêlos?-true|Tem chifre?-true|Ele berra?-true|Dá leite?-true|
+Gato|Tem rabo?-true|Tem 4 patas?-true|Tem pêlos?-true|Ele mia?-true|
+Cachorro|Tem rabo?-true|Tem 4 patas?-true|Tem pêlos?-true|Ele late?-true|
+Galinha|Tem 2 patas?-true|Tem penas?-true|Tem asa?-true|Bota ovo?-true|Cacareja?-true|
