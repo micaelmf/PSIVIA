@@ -28,7 +28,7 @@ public class Principal {
 				+ "~ em um animal e eu vou tentar adivinhá-lo! Veja as INSTRUÇÕES:\n"
 				+ "~ 1- Pense em um animal.\n"
 				+ "~ 2- Responda as perguntas sobre o animal. Suas respostas podem ser 1 para Sim e 2 para Não.\n"
-				+ "~ 3- Caso eu não consiga adivinhar, digite uma pergunta que eu não tenha feito, que a resposta dela seja Sim e que diferencia"
+				+ "~ 3- Caso eu não consiga adivinhar, digite uma pergunta que eu não tenha feito, que a resposta dela seja Sim e que diferencia\n"
 				+ "o animal dos outros.\n");
 
 		Resposta resposta = new Resposta();
@@ -70,7 +70,7 @@ public class Principal {
 			}
 			
 			if(resp == 1) {
-				System.out.println("Eu aceitei "+jogador+"! Viu como eu sou bom nisso? kkkkk");
+				System.out.println("Eu acertei "+jogador+"! Viu como eu sou bom nisso? kkkkk");
 				System.out.println("Tente mais uma vez...");
 				terminou = true;
 			}else if(resp == 2){
@@ -83,15 +83,11 @@ public class Principal {
 				boolean novoValor = true;
 				
 				Animal animal = new Animal(nomeNovo);
-				Animal aux1 = daoAnimal.consultarAnimal(animal);
+				animal.setAtributo(novaChave, novoValor);
+				animal.setAtributos(resposta.getNovosAtributos());
+				Animal aux = daoAnimal.consultarAnimal(animal);
 				
-				Map<String,Boolean> atributos = new LinkedHashMap<>();
-				atributos = aux1.getAtributos();
-				atributos.put(novaChave, novoValor);
-				animal = new Animal(nomeNovo, atributos);
-				
-				daoAnimal.apagarAnimal(aux1);
-				daoAnimal.gravarAnimal(animal);
+				daoAnimal.atualizarAnimal(animal);
 				
 				Pergunta pergunta = new Pergunta(novaChave);
 				daoPergunta.gravarPergunta(pergunta);

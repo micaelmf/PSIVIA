@@ -2,11 +2,12 @@ package Dominio;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Animal {
 	private String nome;
-	Map<String, Boolean> atributos;
+	Map<String, Boolean> atributos = new LinkedHashMap<>();
 	
 	public Animal() {
 		
@@ -36,7 +37,7 @@ public class Animal {
 	}
 
 	public void setAtributos(Map<String, Boolean> atributos) {
-		this.atributos = atributos;
+		this.atributos.putAll(atributos);
 	}
 	
 }
