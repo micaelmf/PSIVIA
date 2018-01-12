@@ -1,11 +1,8 @@
 package Dominio;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.Scanner;
 
 import DAO.AnimalDAO;
@@ -55,7 +52,6 @@ public class Principal {
 				Animal a = new Animal("Gato",atributos);
 				daoAnimal.gravarAnimal(a);
 			}
-			ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
 			
 			resposta.setResposta();
 			String retorno = resposta.getResposta();
@@ -85,7 +81,6 @@ public class Principal {
 				Animal animal = new Animal(nomeNovo);
 				animal.setAtributo(novaChave, novoValor);
 				animal.setAtributos(resposta.getNovosAtributos());
-				Animal aux = daoAnimal.consultarAnimal(animal);
 				
 				daoAnimal.atualizarAnimal(animal);
 				

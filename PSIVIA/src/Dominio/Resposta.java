@@ -23,21 +23,86 @@ public class Resposta {
 		AnimalDAO daoAnimal = new AnimalDAO();
 		ArrayList<Animal> animais = daoAnimal.carregaAnimais();
 		
+		ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
+		
+		boolean alterou = false, resp = false;
+		
 		int i = 0;
 		for(Map.Entry<String, Boolean> entry : atributosProcurados.entrySet()) {
-			System.out.println("Pergunta: " + perguntas.get(i).getPergunta());
-			ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
-			for(Animal animal : animais) {
-				Map<String, Boolean> atributos = animal.getAtributos();
-				if(atributos.containsKey(perguntas.get(i).getPergunta())) {
-					if(entry.getValue() == true) {
-						System.out.println("\tSim");
-					}else {
-						System.out.println("\tNão");
-						animaisAux.remove(animal);
+//			System.out.println("Pergunta: " + perguntas.get(i).getPergunta());
+//			ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
+//			for(Animal animal : animais) {
+//				Map<String, Boolean> atributos = animal.getAtributos();
+//				if(atributos.containsKey(perguntas.get(i).getPergunta())) {
+//					if(entry.getValue() == true) {
+//						System.out.println("\tSim");
+//					}else {
+//						System.out.println("\tNão");
+//						animaisAux.remove(animal);
+//					}
+//				}
+//			}
+			boolean novoAtributo = true;
+			if(!animaisAux.isEmpty()){
+				System.out.println("Pergunta: " + perguntas.get(i).getPergunta() + " 1-Sim ou 2-Não\n> ");
+				resp = entry.getValue();
+				if(!animaisAux.isEmpty() && animaisAux != null) {
+					for(Animal animal : animais) {
+						ArrayList<Animal> animaisAux2 = new ArrayList<Animal>(animaisAux);
+						if(animal.getNome().equals("")) {
+							animaisAux.remove(animal);
+						}
+						Map<String, Boolean> atributos = animal.getAtributos();
+						//Se o animal contem a chave o valor é verdadeiro
+						if(atributos.containsKey(perguntas.get(i).getPergunta()) && resp == true) {
+							if(novoAtributo && resp == true) {
+								this.novosAtributos.put(perguntas.get(i).getPergunta(), true);
+								novoAtributo = false;
+							}
+							if(atributos.containsKey(perguntas.get(i).getPergunta()) == true && resp == false) {
+								animaisAux2.remove(animal);
+							}
+						}else if(!atributos.containsKey(perguntas.get(i).getPergunta()) && resp == true) { //se o animal não tem a chave a resposta é verdadeira
+							if(novoAtributo && resp == true) {
+								this.novosAtributos.put(perguntas.get(i).getPergunta(), true);
+								novoAtributo = false;
+							}
+							animaisAux2.remove(animal);
+							alterou = true;
+//							animal.setAtributo(p.getPergunta(), true);
+//							daoAnimal.atualizarAnimal(animal);
+//							alterou = true;
+						
+						}else if(!atributos.containsKey(perguntas.get(i).getPergunta()) && resp == false) {
+							if(novoAtributo && resp == true) {
+								this.novosAtributos.put(perguntas.get(i).getPergunta(), true);
+								novoAtributo = false;
+							}
+						}else if(atributos.containsKey(perguntas.get(i).getPergunta()) && resp == false) {
+							animaisAux2.remove(animal);
+							alterou = true;							
+						}
+						animaisAux = animaisAux2;
 					}
 				}
+				//carregar animais atualizado que restaram
+				if(alterou) {
+					ArrayList<Animal> animaisAux2 = new ArrayList<Animal>(animaisAux);
+					for(Animal a : animaisAux2) {
+						Animal animalAtualizado = daoAnimal.carregaAnimal(a);
+						int i1 = animaisAux.indexOf(a);
+						animaisAux.remove(a);
+						animaisAux.add(i1,animalAtualizado);
+					}
+					animais = animaisAux;
+				}
+				this.respostas = animaisAux;
+				if(respostas.size() == 1) {
+					return this.respostas.get(0).getNome();
+				}
 			}
+			
+			
 			animais = animaisAux;
 			i++;
 		}
@@ -66,7 +131,7 @@ public class Resposta {
 		ArrayList<Animal> animais = daoAnimal.carregaAnimais();
 		ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
 		
-		int resp = 0, tamanho = 0;
+		int resp = 0;
 		boolean alterou = false;
 		
 		
