@@ -3,7 +3,6 @@ package Teste;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
@@ -131,7 +130,8 @@ class Teste {
 		resposta.setResposta(atributos);
 		String retorno = resposta.getResposta();   
 		
-		assertEquals("Duiker-zebrado", retorno);
+		assertNotEquals(animal.getNome(), retorno);
+		
 	}
 	
 	@Test
