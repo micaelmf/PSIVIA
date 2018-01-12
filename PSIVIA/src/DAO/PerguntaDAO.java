@@ -53,6 +53,7 @@ public class PerguntaDAO {
 	        
 	        fileReader.close();
 	        bufferedReader.close();
+	        
 	        return perguntas;
 	        
 		} catch (IOException e) {

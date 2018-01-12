@@ -1,5 +1,7 @@
 package Dominio;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -39,6 +41,20 @@ public class Principal {
 				preparado = scInt.nextInt();
 			}
 			PerguntaDAO daoPergunta = new PerguntaDAO();
+			File diretorio = new File("C:\\PSIVIA18-1"); 
+			File arquivo = new File(diretorio, "dados-perguntas.txt"); 
+			if(!arquivo.exists()) {
+				Pergunta p = new Pergunta("Tem 4 patas?");
+				daoPergunta.gravarPergunta(p);
+			}
+			AnimalDAO daoAnimal = new AnimalDAO();
+			arquivo = new File(diretorio, "dados-animais.txt");
+			if(!arquivo.exists()) {
+				ArrayList<String> atributos = new ArrayList<String>();
+				atributos.add("Tem 4 patas?");
+				Animal a = new Animal("Duiker-zebrado",atributos);
+				daoAnimal.gravarAnimal(a);
+			}
 			ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
 			
 			resposta.setResposta();
@@ -63,12 +79,18 @@ public class Principal {
 				String nomeNovo = scString.nextLine();
 				System.out.println("Qual pergunta eu não fiz que diferencia esse animal? (Lembre-se que a resposta para sua pergunta dever ser SIM)\n> ");
 
-				Map<String,Boolean> novosAtributos = new LinkedHashMap<>();
 				String novaChave = scString.nextLine();
 				boolean novoValor = true;
-				novosAtributos.put(novaChave, novoValor);
-				Animal animal = new Animal(nomeNovo, novosAtributos);
-				AnimalDAO daoAnimal = new AnimalDAO();
+				
+				Animal animal = new Animal(nomeNovo);
+				Animal aux1 = daoAnimal.consultarAnimal(animal);
+				
+				ArrayList<String> atributos = new ArrayList<String>();
+				atributos = aux1.getAtributos();
+				atributos.add(novaChave);
+				animal = new Animal(nomeNovo, atributos);
+				
+				daoAnimal.apagarAnimal(aux1);
 				daoAnimal.gravarAnimal(animal);
 				
 				Pergunta pergunta = new Pergunta(novaChave);

@@ -27,8 +27,8 @@ public class Resposta {
 			System.out.println("Pergunta: " + perguntas.get(i).getPergunta());
 			ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
 			for(Animal animal : animais) {
-				Map<String, Boolean> atributos = animal.getAtributos();
-				if(atributos.containsKey(perguntas.get(i).getPergunta())) {
+				ArrayList<String> atributos = animal.getAtributos();
+				if(atributos.contains(perguntas.get(i).getPergunta())) {
 					if(entry.getValue() == true) {
 						System.out.println("\tSim");
 					}else {
@@ -63,23 +63,38 @@ public class Resposta {
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
 		ArrayList<Animal> animais = daoAnimal.carregaAnimais();
+		Animal maior = new Animal();
 		
 		int resp = 0;
 		for(Pergunta p : perguntas) {
 			System.out.println("Pergunta: " + p.getPergunta() + " 1-Sim ou 2-Não\n> ");
 			scInt = new Scanner(System.in);
 			resp = scInt.nextInt();
-			ArrayList<Animal> animaisAux = new ArrayList<Animal>();
+			
+			ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
 			if(!animaisAux.isEmpty() && animaisAux != null) {
-				animaisAux = new ArrayList<Animal>(animais);
 				for(Animal animal : animais) {
-					Map<String, Boolean> atributos = animal.getAtributos();
-					if(atributos.containsKey(p.getPergunta())) {
-						if(resp !=1 ) {
+					if(animal.getNome().equals("")) {
+						animaisAux.remove(animal);
+					}
+					ArrayList<String> atributos = animal.getAtributos();
+					if(atributos.contains(p.getPergunta())) {
+						if(resp != 1) {
 							animaisAux.remove(animal);
+						}
+					}else {
+						if(resp == 1) {
+							animal.setAtributo(p.getPergunta());
+							daoAnimal.atualizarAnimal(animal);
 						}
 					}
 				}
+			}
+			//carregar animais atualizado que restaram
+			for(Animal a : animaisAux) {
+				Animal animalAtualizado = daoAnimal.carregaAnimal(a);
+				animaisAux.add(animalAtualizado);
+				animaisAux.remove(a);
 			}
 			animais = animaisAux;
 		}
@@ -89,7 +104,7 @@ public class Resposta {
 			return this.respostas.get(0).getNome();
 		}
 		if(respostas.size() >= 2) {//
-			return this.respostas.get(0).getNome();
+			return respostas.get(0).getNome();
 		}
 		if(respostas.isEmpty() && resposta == null ) {
 			return "Duiker-zebrado";
