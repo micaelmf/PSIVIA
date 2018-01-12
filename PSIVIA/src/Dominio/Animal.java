@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Animal {
 	private String nome;
-	ArrayList<String> atributos;
+	Map<String, Boolean> atributos;
 	
 	public Animal() {
 		
@@ -16,28 +16,26 @@ public class Animal {
 		this.nome = nome;
 	}
 	
-	public Animal(String nome, ArrayList<String> atributos) {
+	public Animal(String nome, Map<String, Boolean> atributos) {
 		this.nome = nome;
-		this.atributos = atributos;
+		setAtributos(atributos);
 	}
 	
-	public void setAtributo(String atributo) {
-		this.atributos.add(atributo);
+	public void setAtributo(String chave, boolean valor) {
+		this.atributos.put(chave, valor);
 	}
-	
 	public String getNome() {
 		return nome;
 	}
-	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public ArrayList<String> getAtributos() {
+	public Map<String, Boolean> getAtributos() {
 		return atributos;
 	}
 
-	public void setAtributos(ArrayList<String> atributos) {
+	public void setAtributos(Map<String, Boolean> atributos) {
 		this.atributos = atributos;
 	}
 	

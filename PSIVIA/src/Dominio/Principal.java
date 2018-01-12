@@ -50,9 +50,9 @@ public class Principal {
 			AnimalDAO daoAnimal = new AnimalDAO();
 			arquivo = new File(diretorio, "dados-animais.txt");
 			if(!arquivo.exists()) {
-				ArrayList<String> atributos = new ArrayList<String>();
-				atributos.add("Tem 4 patas?");
-				Animal a = new Animal("Duiker-zebrado",atributos);
+				Map<String,Boolean> atributos = new LinkedHashMap<>();
+				atributos.put("Tem 4 patas?", true);
+				Animal a = new Animal("Gato",atributos);
 				daoAnimal.gravarAnimal(a);
 			}
 			ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
@@ -77,7 +77,7 @@ public class Principal {
 				System.out.println("Você ganhou dessa vez "+ jogador +"! rsrsrsrsrs");
 				System.out.println("Em que animal você estava pensando?\n>");
 				String nomeNovo = scString.nextLine();
-				System.out.println("Qual pergunta eu não fiz que diferencia esse animal? (Lembre-se que a resposta para sua pergunta dever ser SIM)\n> ");
+				System.out.println("Qual pergunta eu não fiz que diferencia seu animal do meu? (Lembre-se que a resposta para sua pergunta dever ser SIM)\n> ");
 
 				String novaChave = scString.nextLine();
 				boolean novoValor = true;
@@ -85,9 +85,9 @@ public class Principal {
 				Animal animal = new Animal(nomeNovo);
 				Animal aux1 = daoAnimal.consultarAnimal(animal);
 				
-				ArrayList<String> atributos = new ArrayList<String>();
+				Map<String,Boolean> atributos = new LinkedHashMap<>();
 				atributos = aux1.getAtributos();
-				atributos.add(novaChave);
+				atributos.put(novaChave, novoValor);
 				animal = new Animal(nomeNovo, atributos);
 				
 				daoAnimal.apagarAnimal(aux1);

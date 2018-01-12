@@ -28,10 +28,10 @@ public class AnimalDAO {
 			
 			bw.write(animal.getNome() + "|");
 			
-			ArrayList<String> atributos = new ArrayList<String>();
+			Map<String,Boolean> atributos = new LinkedHashMap<>();
 			atributos = animal.getAtributos();
-			for(String atributo : atributos) {
-				bw.write(atributo + "|");
+			for(Map.Entry<String, Boolean> atributo : atributos.entrySet()) {
+				bw.write(atributo.getKey() + "-" + atributo.getValue() + "|");
 			}
 		
 			bw.newLine();
@@ -121,7 +121,7 @@ public class AnimalDAO {
 	        bw.close();
 	        fw.close();
 	        
-	        gravarAnimal(animal); //após excluir o animal é adicionado
+	        gravarAnimal(animal);
 		} catch (IOException e) {
 	    	//e.printStackTrace();
 	    }
@@ -138,7 +138,7 @@ public class AnimalDAO {
 	        String linha = "";
 	        Animal a = null;
 	        String nomeAnimal = null;
-	        ArrayList<String> atributos = new ArrayList<String>();
+	        Map<String,Boolean> atributos = new LinkedHashMap<>();
 	        while ((linha = bufferedReader.readLine()) != null) {
 	        	String[] registro = linha.split(Pattern.quote("|"));
 
@@ -147,7 +147,12 @@ public class AnimalDAO {
 		        		if(i == 0) {
 		        			nomeAnimal = registro[0];
 		        		}else {
-	        				atributos.add(registro[i]);
+		        			String atributosString = registro[i];
+		        			String[] chaveValor = atributosString.split(Pattern.quote("-"));
+		        			String chave = chaveValor[0];
+		        			boolean valor = Boolean.parseBoolean(chaveValor[1]);
+		        			
+	        				atributos.put(chave,valor);
 		        		}
 		        	}
 	        	}
@@ -178,12 +183,17 @@ public class AnimalDAO {
 	        	String[] registro = linha.split(Pattern.quote("|"));
 
 	        	String nomeAnimal = null;
-	        	ArrayList<String> atributos = new ArrayList<String>();
+	        	Map<String,Boolean> atributos = new LinkedHashMap<>();
 	        	for(int i=0; i < registro.length ;i++) {
 	        		if(i == 0) {
 	        			nomeAnimal = registro[0];
 	        		}else {
-        				atributos.add(registro[i]);
+	        			String atributosString = registro[i];
+	        			String[] chaveValor = atributosString.split(Pattern.quote("-"));
+	        			String chave = chaveValor[0];
+	        			boolean valor = Boolean.parseBoolean(chaveValor[1]);
+	        			
+        				atributos.put(chave,valor);
 	        		}
 	        	}
 	        	Animal animal = new Animal(nomeAnimal,atributos);
@@ -210,7 +220,7 @@ public class AnimalDAO {
 
 	        String linha = "";
 	        String nomeAnimal = null;
-	        ArrayList<String> atributos = new ArrayList<String>();
+	        Map<String,Boolean> atributos = new LinkedHashMap<>();
 	        while ((linha = bufferedReader.readLine()) != null) {
 	        	String[] registro = linha.split(Pattern.quote("|"));
 
@@ -219,7 +229,12 @@ public class AnimalDAO {
 		        		if(i == 0) {
 		        			nomeAnimal = registro[0];
 		        		}else {
-	        				atributos.add(registro[i]);
+		        			String atributosString = registro[i];
+		        			String[] chaveValor = atributosString.split(Pattern.quote("-"));
+		        			String chave = chaveValor[0];
+		        			boolean valor = Boolean.parseBoolean(chaveValor[1]);
+		        			
+	        				atributos.put(chave,valor);
 		        		}
 		        	}
 	        	}
