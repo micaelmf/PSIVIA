@@ -64,53 +64,23 @@ public class Resposta {
 		AnimalDAO daoAnimal = new AnimalDAO();
 		ArrayList<Animal> animais = daoAnimal.carregaAnimais();
 		ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
+		Animal a1 = daoAnimal.carregaAnimal(animais.get(0));
 		
-		int resp = 0, tamanho = 0;
-		for(Pergunta p : perguntas) {
-			if(!animaisAux.isEmpty()){
-				System.out.println("Pergunta: " + p.getPergunta() + " 1-Sim ou 2-Não\n> ");
-				scInt = new Scanner(System.in);
-				resp = scInt.nextInt();
-				boolean alterou = false;
-				if(!animaisAux.isEmpty() && animaisAux != null) {
-					for(Animal animal : animais) {
-						if(animal.getNome().equals("")) {
-							animaisAux.remove(animal);
-						}
-						Map<String, Boolean> atributos = animal.getAtributos();
-						//Se o animal contem a chave
-						if(atributos.containsKey(p.getPergunta())) { 
-							if(atributos.get(p.getPergunta()) == false) { //se o valor da chave é falso
-								animaisAux.remove(animal);							
-							}else if(atributos.get(p.getPergunta()) == true && resp == 2) { //o animal tem a chave e a chave é falsa
-								animaisAux.remove(animal);							
-							}
-						}else if(atributos.containsKey(p.getPergunta()) && resp == 1){ //Não tenho a chave mas sou verdadeiro
-							animal.setAtributo(p.getPergunta(), true);
-							daoAnimal.atualizarAnimal(animal);
-							alterou = true;
-						}else if(!atributos.containsKey(p.getPergunta()) && resp == 1) {
-							animal.setAtributo(p.getPergunta(), false);
-							daoAnimal.atualizarAnimal(animal);
-							animaisAux.remove(animal);
-							alterou = true;
-						}
-					}
-				}
-				//carregar animais atualizado que restaram
-				if(alterou) {
-					ArrayList<Animal> animaisAux2 = new ArrayList<Animal>(animaisAux);
-					for(Animal a : animaisAux2) {
-						Animal animalAtualizado = daoAnimal.carregaAnimal(a);
-						int i = animaisAux.indexOf(a);
-						animaisAux.remove(a);
-						animaisAux.add(i,animalAtualizado);
-					}
-					animais = animaisAux;
-					
-				}
-			}
+		Map<String,Boolean> atributosDoAnimal = a1.getAtributos();
+		
+		int resp = 0;
+		for(Map.Entry<String, Boolean> atributo : atributosDoAnimal.entrySet()) {
+			scInt = new Scanner(System.in);
+			System.out.println("Pergunta: " + atributo.getKey() + " 1-Sim ou 2-Não\n> ");
+			resp = scInt.nextInt();
+			if(atributo.getValue() == true && resp == 2)
+			
 		}
+		//se todas as respostas forem verdadeiras
+		this.respostas.add(a1);
+		
+		boolean alterou = false;
+
 		this.respostas = animaisAux;
 		
 		if(respostas.size() == 1) {
@@ -123,6 +93,7 @@ public class Resposta {
 			return "Tartaruga-de-casco-mole";
 		}
 		return null;
+			
 	}
 	
 	
