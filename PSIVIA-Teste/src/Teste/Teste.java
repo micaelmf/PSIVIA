@@ -106,35 +106,6 @@ class Teste {
 	}
 	
 	@Test
-	void esperaRespostaVaca() {
-		Resposta resposta = new Resposta();
-		
-		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAO daoPergunta = new PerguntaDAO();
-		
-		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
-		Animal a = new Animal("Vaca");
-		Animal animal = daoAnimal.carregaAnimal(a);
-		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
-		atributosDoAnimal = animal.getAtributos();
-		
-		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(Pergunta p : perguntas) {
-			if(atributosDoAnimal.containsKey(p.getPergunta())) {
-				atributos.put(p.getPergunta(), true);
-			}else {
-				atributos.put(p.getPergunta(), false);
-			}
-		}
-		
-		resposta.setProcurar(animal.getNome());
-		resposta.setResposta(atributos);
-		String retorno = resposta.getResposta();   
-		
-		assertEquals(animal.getNome(), retorno);
-	}
-	
-	@Test
 	void esperaAnimalDiferenteDoProcurado() {
 		Resposta resposta = new Resposta();
 		
