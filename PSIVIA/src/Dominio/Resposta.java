@@ -1,7 +1,6 @@
 package Dominio;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -12,8 +11,6 @@ public class Resposta {
 	private String procurar;
 	private String resposta;
 	private ArrayList<Animal> respostas = new ArrayList<Animal>();
-	private ArrayList<Pergunta> perguntas = new ArrayList<Pergunta>();
-	
 	
 	public String procurarResposta(Map<String,Boolean> atributosProcurados) {
 		PerguntaDAO daoPergunta = new PerguntaDAO();

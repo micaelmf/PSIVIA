@@ -15,7 +15,7 @@ import Dominio.Animal;
 
 public class AnimalDAO {
 	
-	public void gravarAnimal(Animal animal) {
+	public Boolean gravarAnimal(Animal animal) {
 		File diretorio = new File("C:\\PSIVIA18-1"); 
 		File arquivo = new File(diretorio, "dados-animais.txt"); 
 		//System.out.println(arq.getAbsolutePath()); //recupera o local do arquivo
@@ -38,9 +38,12 @@ public class AnimalDAO {
 			bw.newLine();
 			bw.close();
 			fw.close();
+			return true;
 		} catch (IOException e) {
-		    e.printStackTrace(); 
+		    e.printStackTrace();
 		}
+		
+		return false;
 	}
 	
 	public Animal carregaAnimal(Animal animal){
