@@ -1,4 +1,8 @@
-Vaca|Tem rabo?-true|Tem 4 patas?-true|Tem pêlos?-true|Tem chifre?-true|Ele berra?-true|Dá leite?-true|
-Gato|Tem rabo?-true|Tem 4 patas?-true|Tem pêlos?-true|Ele mia?-true|
-Cachorro|Tem rabo?-true|Tem 4 patas?-true|Tem pêlos?-true|Ele late?-true|
-Galinha|Tem 2 patas?-true|Tem penas?-true|Tem asa?-true|Bota ovo?-true|Cacareja?-true|
+cachorro|Ele late?-true|Tem 4 patas?-true|
+galinha|Bota ovo?-true|Tem 4 patas?-true|Ele late?-false|Dá leite?-true|
+Leão|Tem juba?-true|Tem 4 patas?-true|Ele late?-false|Dá leite?-true|
+vaca|Dá leite?-true|Tem 4 patas?-true|Ele late?-false|Bota ovo?-false|Tem juba?-false|
+Gato|Tem 4 patas?-true|Ele late?-false|Dá leite?-true|Bota ovo?-false|Tem juba?-false|
+Cabra|Ele berra?-true|Tem 4 patas?-true|Dá leite?-true|Ele late?-false|
+Girafa|Tem o pescoço longo?-true|Tem 4 patas?-true|Dá leite?-true|Ele late?-false|
+Peixe|Ele vive na água?-true|Tem 4 patas?-true|Dá leite?-true|Ele late?-false|
