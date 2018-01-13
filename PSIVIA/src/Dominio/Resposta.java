@@ -150,6 +150,9 @@ public class Resposta {
 						Map<String, Boolean> atributos = animal.getAtributos();
 						//Se o animal contem a chave o valor é verdadeiro
 						if(atributos.containsKey(p.getPergunta()) && resp == 1) {
+							if(atributos.get(p.getPergunta()) == false) {
+								animaisAux2.remove(animal);								
+							}
 							if(novoAtributo && resp == 1) {
 								this.novosAtributos.put(p.getPergunta(), true);
 								novoAtributo = false;
@@ -158,24 +161,28 @@ public class Resposta {
 								animaisAux2.remove(animal);
 							}
 						}else if(!atributos.containsKey(p.getPergunta()) && resp == 1) { //se o animal não tem a chave a resposta é verdadeira
+							animal.setAtributo(p.getPergunta(), true);
+							daoAnimal.atualizarAnimal(animal);
+							alterou = true;
 							if(novoAtributo && resp == 1) {
 								this.novosAtributos.put(p.getPergunta(), true);
 								novoAtributo = false;
 							}
 							animaisAux2.remove(animal);
-							alterou = true;
-//							animal.setAtributo(p.getPergunta(), true);
-//							daoAnimal.atualizarAnimal(animal);
-//							alterou = true;
-						
 						}else if(!atributos.containsKey(p.getPergunta()) && resp == 2) {
+							animal.setAtributo(p.getPergunta(), false);
+							daoAnimal.atualizarAnimal(animal);
+							alterou = true;
 							if(novoAtributo && resp == 1) {
 								this.novosAtributos.put(p.getPergunta(), true);
 								novoAtributo = false;
 							}
 						}else if(atributos.containsKey(p.getPergunta()) && resp == 2) {
-							animaisAux2.remove(animal);
-							alterou = true;							
+							if(atributos.get(p.getPergunta()) == false) {
+							}else {
+								animaisAux2.remove(animal);
+								alterou = true;							
+							}
 						}
 						animaisAux = animaisAux2;
 					}
