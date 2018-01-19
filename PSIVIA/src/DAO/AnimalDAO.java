@@ -169,7 +169,7 @@ public class AnimalDAO {
 	    }
 	}
 	
-	public ArrayList<Animal> carregaAnimais(){
+	public ArrayList<Animal> carregarAnimais(){
 		File dir = new File("C:\\PSIVIA18-1"); 
 		File arq = new File(dir, "dados-animais.txt");
 

@@ -1,248 +1,220 @@
 package Dominio;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+
+import com.sun.scenario.animation.AnimationPulseMBean;
 
 import DAO.AnimalDAO;
 import DAO.PerguntaDAO;
 
 public class Resposta {
-	private String procurar;
-	private String resposta;
-	private ArrayList<Animal> respostas = new ArrayList<Animal>();
-	private static Scanner scInt;
-	private Map<String, Boolean> novosAtributos = new LinkedHashMap<>();
+	Animal ultimoRemovido = new Animal();
+	Map<String,Boolean> novosAtributos = new LinkedHashMap<String,Boolean>();
+	boolean seguir = true;
 	
-	//método usado no teste
-	public String procurarResposta(Map<String,Boolean> atributosProcurados) {
+	public String responder() {
 		PerguntaDAO daoPergunta = new PerguntaDAO();
-		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
-		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		ArrayList<Animal> animais = daoAnimal.carregaAnimais();
-		
+		ArrayList<String> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<String> perguntasFeitas = new ArrayList<>();
+		ArrayList<Animal> animais = daoAnimal.carregarAnimais();
 		ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
+		Scanner scan = new Scanner(System.in);
+
+		for(int i = 0; i < animais.size(); i++) {
+			Animal animal = animais.get(i);
+			if(animaisAux.contains(animal)) {
+				for(String pergunta : perguntas) {
+					Map<String,Boolean> ss = animal.getAtributos();
+					int resposta = 0;
+					if(ss.containsKey(pergunta) && !perguntasFeitas.contains(pergunta)) {
+						perguntasFeitas.add(pergunta);
+						System.out.println(pergunta + "?");
+						resposta = scan.nextInt();
+						animaisAux = retornarOsVerdadeiros(animais,pergunta,resposta);
+						
+					}else if(ss.isEmpty() && animais.contains(animal)){
+						System.out.println(animal.getNome() + "" + pergunta + " Decartado (fora)");
+						animais.remove(animal);
+						ultimoRemovido = animal;
+					}
+				}
+			}
+			if(animais.size() == 1) {
+				return animais.get(0).getNome();
+			}
+		}
+		if(animais.isEmpty()) {
+			return this.ultimoRemovido.getNome();
+		}else {
+			return animais.get(0).getNome();
+		}
 		
-		boolean alterou = false, resp = false;
+//		//int i = 0;
+//		while(i < animais.size()) {
+//			Animal animal = animais.get(i);
+//			for(String pergunta : perguntas) {
+//				Map<String,Boolean> ss = animal.getAtributo(pergunta);
+//				int resposta = 0;
+//				if(!ss.isEmpty() && ss != null 
+//						&& !perguntasFeitas.contains(pergunta) && ss.get(pergunta) != false) {
+//					
+//					perguntasFeitas.add(pergunta);
+//					System.out.println(pergunta + "?");
+//					resposta = scan.nextInt();
+//					
+//					animais = retornarOsVerdadeiros(animais,pergunta,resposta);
+//				}
+//			}
+//			if(seguir) {
+//				i++;
+//			}
+//			if(animais.size() == 1) {
+//				return animais.get(0).getNome();
+//			}
+//		}
+//		if(animais.isEmpty()) {
+//			return this.ultimoRemovido.getNome();
+//		}else {
+//			return animais.get(0).getNome();
+//		}
+	}
+
+	public ArrayList<Animal> retornarOsVerdadeiros(ArrayList<Animal> animais, String pergunta, int resposta) {
+		int j = 0, tamanho = animais.size();
+		boolean add = true, atualizar = false;
 		
-		int i = 0;
-		for(Map.Entry<String, Boolean> entry : atributosProcurados.entrySet()) {
-//			System.out.println("Pergunta: " + perguntas.get(i).getPergunta());
-//			ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
+		while(j < animais.size()) {
+
+			Animal proxAnimal = animais.get(j);
+			Map<String,Boolean> kk = proxAnimal.getAtributos();
+			System.out.print(proxAnimal.getNome() + " " + pergunta);
+			/*
+			 * se a resposta é 1 - remover animais que contenham a chave e que o valor seja falso
+			 * se a resposta é 2 - remover animais que contenham a chave e que o valor seja true
+			 */
+			if(!kk.isEmpty() && kk != null) {
+				if(resposta == 1 && kk.get(pergunta) == false) {
+					System.out.println(" Decartado 1");
+					animais.remove(proxAnimal);
+					ultimoRemovido = proxAnimal;
+					tamanho--;
+					add = false;
+					
+				}else if(resposta == 2 && kk.get(pergunta) == true) {
+					System.out.println(" Decartado 2");
+					animais.remove(proxAnimal);
+					ultimoRemovido = proxAnimal;
+					tamanho--;
+					add = false;
+				}else if((resposta == 1 && kk.get(pergunta) == true)) {
+					System.out.println(" Mantido 1");
+					add = true;
+				}else if((resposta == 2 && kk.get(pergunta) == false)){
+					System.out.println(" Mantido 2");
+					add = true;
+				}else{
+					System.out.println(" Mantido 3");
+					add = true;
+				}
+			}else {
+				if(resposta == 2) {
+					System.out.println(" Decartado 3");
+					animais.remove(proxAnimal);
+					ultimoRemovido = proxAnimal;
+					tamanho--;
+					add = false;
+				}else if(resposta == 2) {
+					System.out.println("Manter 4");
+					add = true;
+//					animais.remove(proxAnimal);
+//					ultimoRemovido = proxAnimal;
+//					add = false;
+//					this.seguir = false;
+				}else {
+					System.out.println("Como assim?!?!?!?!");
+				}
+			}
+			if(add) {
+				j++;
+			}
+		}
+		if(tamanho == animais.size()) {
+			this.seguir = true;
+		}else {
+			this.seguir = false;
+		}
+		return animais;
+	}
+//	public Map<String, List<String>> classificarAnimais() {
+//		AnimalDAO daoAnimal = new AnimalDAO();
+//		PerguntaDAO daoPergunta = new PerguntaDAO();
+//		
+//		ArrayList<Animal> animais = daoAnimal.carregarAnimais();
+//		ArrayList<String> perguntas = daoPergunta.carregaPerguntas();
+//		
+//		//String[][] matriz = new String[perguntas.size()][2];
+//		Map<String, List<String>> matriz = new LinkedHashMap<>();
+//
+//		for(String pergunta: perguntas) {
+//			ArrayList<String> classificados = new ArrayList<String>();
+//			Map<String, Boolean> atributo = new LinkedHashMap<>();
 //			for(Animal animal : animais) {
-//				Map<String, Boolean> atributos = animal.getAtributos();
-//				if(atributos.containsKey(perguntas.get(i).getPergunta())) {
-//					if(entry.getValue() == true) {
-//						System.out.println("\tSim");
-//					}else {
-//						System.out.println("\tNão");
-//						animaisAux.remove(animal);
+//				atributo = animal.getAtributo(pergunta);
+//				System.out.println(!atributo.isEmpty() || !atributo.equals(null));
+//				if(!atributo.isEmpty() && !atributo.equals(null)) {
+//					if(atributo.get(pergunta) == true) {
+//						classificados.add(animal.getNome());
 //					}
 //				}
 //			}
-			boolean novoAtributo = true;
-			if(!animaisAux.isEmpty()){
-				System.out.println("Pergunta: " + perguntas.get(i).getPergunta() + " 1-Sim ou 2-Não\n> ");
-				resp = entry.getValue();
-				if(!animaisAux.isEmpty() && animaisAux != null) {
-					for(Animal animal : animais) {
-						ArrayList<Animal> animaisAux2 = new ArrayList<Animal>(animaisAux);
-						if(animal.getNome().equals("")) {
-							animaisAux.remove(animal);
-						}
-						Map<String, Boolean> atributos = animal.getAtributos();
-						//Se o animal contem a chave o valor é verdadeiro
-						if(atributos.containsKey(perguntas.get(i).getPergunta()) && resp == true) {
-							if(novoAtributo && resp == true) {
-								this.novosAtributos.put(perguntas.get(i).getPergunta(), true);
-								novoAtributo = false;
-							}
-							if(atributos.containsKey(perguntas.get(i).getPergunta()) == true && resp == false) {
-								animaisAux2.remove(animal);
-							}
-						}else if(!atributos.containsKey(perguntas.get(i).getPergunta()) && resp == true) { //se o animal não tem a chave a resposta é verdadeira
-							if(novoAtributo && resp == true) {
-								this.novosAtributos.put(perguntas.get(i).getPergunta(), true);
-								novoAtributo = false;
-							}
-							animaisAux2.remove(animal);
-							alterou = true;
-//							animal.setAtributo(p.getPergunta(), true);
-//							daoAnimal.atualizarAnimal(animal);
-//							alterou = true;
-						
-						}else if(!atributos.containsKey(perguntas.get(i).getPergunta()) && resp == false) {
-							if(novoAtributo && resp == true) {
-								this.novosAtributos.put(perguntas.get(i).getPergunta(), true);
-								novoAtributo = false;
-							}
-						}else if(atributos.containsKey(perguntas.get(i).getPergunta()) && resp == false) {
-							animaisAux2.remove(animal);
-							alterou = true;							
-						}
-						animaisAux = animaisAux2;
-					}
-				}
-				//carregar animais atualizado que restaram
-				if(alterou) {
-					ArrayList<Animal> animaisAux2 = new ArrayList<Animal>(animaisAux);
-					for(Animal a : animaisAux2) {
-						Animal animalAtualizado = daoAnimal.carregaAnimal(a);
-						int i1 = animaisAux.indexOf(a);
-						animaisAux.remove(a);
-						animaisAux.add(i1,animalAtualizado);
-					}
-					animais = animaisAux;
-				}
-				this.respostas = animaisAux;
-				if(respostas.size() == 1) {
-					return this.respostas.get(0).getNome();
-				}
-			}
-			
-			
-			animais = animaisAux;
-			i++;
-		}
-		this.respostas = animais;
+//			matriz.put(pergunta, classificados);
+//		}
+//		
+//		return matriz;
 		
-		if(respostas.size() == 1) {
-			System.out.println("---- É um " + getProcurar() + "? ----");
-			return this.respostas.get(0).getNome();//
-		}
-		if(respostas.size() >= 2) {//
-			System.out.println("---- É um " + this.respostas.get(0).getNome() + "? ----");
-			return this.respostas.get(0).getNome();
-		}
-		if(respostas.isEmpty() && resposta == null) {//
-			System.out.println("---- É um Duiker-zebrado? ----");
-			return "Duiker-zebrado";
-		}
-		return null;
-	}
-	//método usado na classe Principal
-	public String procurarResposta() {
-		PerguntaDAO daoPergunta = new PerguntaDAO();
-		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
+		//imprimirClassificados(matriz);
 		
-		AnimalDAO daoAnimal = new AnimalDAO();
-		ArrayList<Animal> animais = daoAnimal.carregaAnimais();
-		ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
+		//		int i = 0;
+//		int j = 0;
+//		for(String pergunta: perguntas) {
+//			//ArrayList<String> classificados = new ArrayList<String>();
+//			Map<String, Boolean> atributo = new LinkedHashMap<>();
+//			for(Animal animal : animais) {
+//				atributo = animal.getAtributo(pergunta);
+//				if(!atributo.isEmpty() && atributo != null) {
+//					matriz[i][j] = pergunta;
+//					j++;
+//				}
+//			}
+//			i++;
+//		}
 		
-		int resp = 0;
-		boolean alterou = false;
-		
-		
-		for(Pergunta p : perguntas) {
-			boolean novoAtributo = true;
-			if(!animaisAux.isEmpty()){
-				System.out.println("Pergunta: " + p.getPergunta() + " 1-Sim ou 2-Não\n> ");
-				scInt = new Scanner(System.in);
-				resp = scInt.nextInt();
-				if(!animaisAux.isEmpty() && animaisAux != null) {
-					for(Animal animal : animais) {
-						ArrayList<Animal> animaisAux2 = new ArrayList<Animal>(animaisAux);
-						if(animal.getNome().equals("")) {
-							animaisAux.remove(animal);
-						}
-						Map<String, Boolean> atributos = animal.getAtributos();
-						//Se o animal contem a chave o valor é verdadeiro
-						if(atributos.containsKey(p.getPergunta()) && resp == 1) {
-							if(atributos.get(p.getPergunta()) == false) {
-								animaisAux2.remove(animal);								
-							}
-							if(novoAtributo && resp == 1) {
-								this.novosAtributos.put(p.getPergunta(), true);
-								novoAtributo = false;
-							}
-							if(atributos.containsKey(p.getPergunta()) == true && resp == 2) {
-								animaisAux2.remove(animal);
-							}
-						}else if(!atributos.containsKey(p.getPergunta()) && resp == 1) { //se o animal não tem a chave a resposta é verdadeira
-							animal.setAtributo(p.getPergunta(), true);
-							daoAnimal.atualizarAnimal(animal);
-							alterou = true;
-							if(novoAtributo && resp == 1) {
-								this.novosAtributos.put(p.getPergunta(), true);
-								novoAtributo = false;
-							}
-							animaisAux2.remove(animal);
-						}else if(!atributos.containsKey(p.getPergunta()) && resp == 2) {
-							animal.setAtributo(p.getPergunta(), false);
-							daoAnimal.atualizarAnimal(animal);
-							alterou = true;
-							if(novoAtributo && resp == 1) {
-								this.novosAtributos.put(p.getPergunta(), true);
-								novoAtributo = false;
-							}
-						}else if(atributos.containsKey(p.getPergunta()) && resp == 2) {
-							if(atributos.get(p.getPergunta()) == false) {
-							}else {
-								animaisAux2.remove(animal);
-								alterou = true;							
-							}
-						}
-						animaisAux = animaisAux2;
-					}
-				}
-				//carregar animais atualizado que restaram
-				if(alterou) {
-					ArrayList<Animal> animaisAux2 = new ArrayList<Animal>(animaisAux);
-					for(Animal a : animaisAux2) {
-						Animal animalAtualizado = daoAnimal.carregaAnimal(a);
-						int i = animaisAux.indexOf(a);
-						animaisAux.remove(a);
-						animaisAux.add(i,animalAtualizado);
-					}
-					animais = animaisAux;
-				}
-				this.respostas = animaisAux;
-				if(respostas.size() == 1) {
-					return this.respostas.get(0).getNome();
-				}
+//		for(Animal animal : animais) {
+//			animal.getAtributo(chave);
+//		}
+//	}
+	
+	public void imprimirClassificados(String[][] matriz) {
+		for (int i = 0; i < matriz.length; i++) {
+			for (int j = 0; j < matriz.length; j++) {
+				System.out.println(matriz[i][j]);
 			}
 		}
-		this.respostas = animaisAux;
-		
-		if(respostas.size() >= 2) {//
-			return respostas.get(0).getNome();
-		}
-		if(respostas.isEmpty() && resposta == null ) {
-			return "Tartaruga-de-casco-mole";
-		}
-		return null;
-	}
-	
-	
-	public String exibirResposta(String animal) {
-		return this.procurar;
 	}
 
-	public String getProcurar() {
-		return procurar;
-	}
-
-	public void setProcurar(String procurar) {
-		this.procurar = procurar;
-	}
-
-	public String getResposta() {
-		return resposta;
-	}
-
-	public void setResposta(Map<String,Boolean> atributos) {
-		this.resposta = procurarResposta(atributos);
-	}
-	public void setResposta() {
-		this.resposta = procurarResposta();
-	}
 	public Map<String, Boolean> getNovosAtributos() {
 		return novosAtributos;
 	}
+
 	public void setNovosAtributos(Map<String, Boolean> novosAtributos) {
 		this.novosAtributos = novosAtributos;
 	}
 	
-}
+

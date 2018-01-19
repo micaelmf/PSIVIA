@@ -10,9 +10,9 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 import DAO.AnimalDAO;
-import DAO.PerguntaDAO;
+import DAO.PerguntaDAOX;
 import Dominio.Animal;
-import Dominio.Pergunta;
+import Dominio.PerguntaX;
 import Dominio.Resposta;
 
 class Teste {
@@ -22,16 +22,16 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAO daoPergunta = new PerguntaDAO();
+		PerguntaDAOX daoPergunta = new PerguntaDAOX();
 		
-		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
 		Animal a = new Animal("Cachorro"); 
 		Animal animal = daoAnimal.carregaAnimal(a);
 		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
 		atributosDoAnimal = animal.getAtributos();
 		
 		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(Pergunta p : perguntas) {
+		for(PerguntaX p : perguntas) {
 			if(atributosDoAnimal.containsKey(p.getPergunta())) {
 				atributos.put(p.getPergunta(), true);
 			}else {
@@ -51,16 +51,16 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAO daoPergunta = new PerguntaDAO();
+		PerguntaDAOX daoPergunta = new PerguntaDAOX();
 		
-		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
 		Animal a = new Animal("Gato");
 		Animal animal = daoAnimal.carregaAnimal(a);
 		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
 		atributosDoAnimal = animal.getAtributos();
 		
 		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(Pergunta p : perguntas) {
+		for(PerguntaX p : perguntas) {
 			if(atributosDoAnimal.containsKey(p.getPergunta())) {
 				atributos.put(p.getPergunta(), true);
 			}else {
@@ -80,16 +80,16 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAO daoPergunta = new PerguntaDAO();
+		PerguntaDAOX daoPergunta = new PerguntaDAOX();
 		
-		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
 		Animal a = new Animal("Galinha");
 		Animal animal = daoAnimal.carregaAnimal(a);
 		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
 		atributosDoAnimal = animal.getAtributos();
 		
 		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(Pergunta p : perguntas) {
+		for(PerguntaX p : perguntas) {
 			if(atributosDoAnimal.containsKey(p.getPergunta())) {
 				atributos.put(p.getPergunta(), true);
 			}else {
@@ -109,16 +109,16 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAO daoPergunta = new PerguntaDAO();
+		PerguntaDAOX daoPergunta = new PerguntaDAOX();
 		
-		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
 		Animal a = new Animal("diferente");
 		Animal animal = daoAnimal.carregaAnimal(a);
 		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
 		atributosDoAnimal = animal.getAtributos();
 		
 		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(Pergunta p : perguntas) {
+		for(PerguntaX p : perguntas) {
 			if(atributosDoAnimal.containsKey(p.getPergunta())) {
 				atributos.put(p.getPergunta(), true);
 			}else {
@@ -139,9 +139,9 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAO daoPergunta = new PerguntaDAO();
+		PerguntaDAOX daoPergunta = new PerguntaDAOX();
 		
-		ArrayList<Pergunta> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
 		Random random = new Random();
 		
 		int numAleatorio = random.nextInt();
@@ -153,7 +153,7 @@ class Teste {
 		atributosDoAnimal = animal.getAtributos();
 		
 		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(Pergunta p : perguntas) {
+		for(PerguntaX p : perguntas) {
 			if(atributosDoAnimal.containsKey(p.getPergunta())) {
 				atributos.put(p.getPergunta(), true);
 			}else {

@@ -7,15 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import Dominio.Animal;
-import Dominio.Pergunta;
 
 public class PerguntaDAO {
-	public void gravarPergunta(Pergunta pergunta) {
+	public void gravarPergunta(String pergunta) {
 		File diretorio = new File("C:\\PSIVIA18-1"); 
 		File arquivo = new File(diretorio, "dados-perguntas.txt"); 
 		
@@ -26,7 +20,7 @@ public class PerguntaDAO {
 			FileWriter fw = new FileWriter(arquivo,true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			
-			bw.write(pergunta.getPergunta());
+			bw.write(pergunta);
 			
 			bw.newLine();
 			bw.close();
@@ -35,20 +29,19 @@ public class PerguntaDAO {
 		    e.printStackTrace(); 
 		}
 	}
-	public ArrayList<Pergunta> carregaPerguntas(){
+	public ArrayList<String> carregaPerguntas(){
 		File dir = new File("C:\\PSIVIA18-1"); 
 		File arq = new File(dir, "dados-perguntas.txt");
-
+		ArrayList<String> perguntas = new ArrayList<String>();
+		
 	    try {
 	        FileReader fileReader = new FileReader(arq);
 	        BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 	        String linha = "";
-	        ArrayList<Pergunta> perguntas = new ArrayList<Pergunta>();
 	        while ((linha = bufferedReader.readLine()) != null) {
-	        	Pergunta pergunta = new Pergunta(linha);
+	        	String pergunta = linha;
 	        	perguntas.add(pergunta);
-
         	}
 	        
 	        fileReader.close();

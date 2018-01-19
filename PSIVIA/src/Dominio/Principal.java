@@ -14,6 +14,7 @@ public class Principal {
 	private static Scanner scInt;
 
 	public static void main(String[] args) {
+		PerguntaDAO daoPergunta = new PerguntaDAO();
 		scString = new Scanner(System.in);
 		scInt = new Scanner(System.in);
 		String jogador = null;
@@ -37,12 +38,10 @@ public class Principal {
 				System.out.print(jogador + ", pense em um animal e digite 1 para Continuar\n> ");
 				preparado = scInt.nextInt();
 			}
-			PerguntaDAO daoPergunta = new PerguntaDAO();
 			File diretorio = new File("C:\\PSIVIA18-1"); 
 			File arquivo = new File(diretorio, "dados-perguntas.txt"); 
 			if(!arquivo.exists()) {
-				Pergunta p = new Pergunta("Tem 4 patas?");
-				daoPergunta.gravarPergunta(p);
+				daoPergunta.gravarPergunta("Tem 4 patas?");
 			}
 			AnimalDAO daoAnimal = new AnimalDAO();
 			arquivo = new File(diretorio, "dados-animais.txt");
@@ -53,8 +52,7 @@ public class Principal {
 				daoAnimal.gravarAnimal(a);
 			}
 			
-			resposta.setResposta();
-			String retorno = resposta.getResposta();
+			String retorno = resposta.responder();
 			
 			System.out.println("~~~~~ É um " + retorno + "? ~~~~~");
 			System.out.println("1-Sim ou 2-Não\n> ");
@@ -80,12 +78,10 @@ public class Principal {
 				
 				Animal animal = new Animal(nomeNovo);
 				animal.setAtributo(novaChave, novoValor);
-				animal.setAtributos(resposta.getNovosAtributos());
-				
+				//animal.setAtributos(resposta.getNovosAtributos());
+
 				daoAnimal.atualizarAnimal(animal);
-				
-				Pergunta pergunta = new Pergunta(novaChave);
-				daoPergunta.gravarPergunta(pergunta);
+				daoPergunta.gravarPergunta(novaChave);
 			}
 			
 			System.out.println("Vamos brincar de novo?\n> ");

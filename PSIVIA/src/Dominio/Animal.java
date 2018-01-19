@@ -23,6 +23,15 @@ public class Animal {
 	public void setAtributo(String chave, boolean valor) {
 		this.atributos.put(chave, valor);
 	}
+	
+	public boolean getAtributo(String chave) {
+		for(Map.Entry<String, Boolean> atributo : atributos.entrySet()) {
+			if(atributo.getKey().equals(chave)) {
+				return atributo.getValue();
+			}
+		}
+		return false;
+	}
 	public String getNome() {
 		return nome;
 	}
