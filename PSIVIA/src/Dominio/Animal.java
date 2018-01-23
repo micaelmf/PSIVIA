@@ -21,7 +21,9 @@ public class Animal {
 	}
 	
 	public void setAtributo(String chave, boolean valor) {
-		this.atributos.put(chave, valor);
+		if(!this.atributos.containsKey(chave)) {
+			this.atributos.put(chave, valor);
+		}
 	}
 	
 	public boolean getAtributo(String chave) {

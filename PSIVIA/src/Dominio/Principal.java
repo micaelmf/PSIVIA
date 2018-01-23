@@ -19,15 +19,17 @@ public class Principal {
 		scInt = new Scanner(System.in);
 		String jogador = null;
 		
-		System.out.print("Digite seu nome:\n> ");
+		System.out.print("|+| Digite seu nome: > ");
 		jogador = scString.nextLine();
 		
-		System.out.println("\n~ Olá " + jogador + "! Seja bem-vindo(a) ao QUIZ ANIMAL. Para jogar é muito simples, você vai pensar\n"
-				+ "~ em um animal e eu vou tentar adivinhá-lo! Veja as INSTRUÇÕES:\n"
-				+ "~ 1- Pense em um animal.\n"
-				+ "~ 2- Responda as perguntas sobre o animal. Suas respostas podem ser 1 para Sim e 2 para Não.\n"
-				+ "~ 3- Caso eu não consiga adivinhar, digite uma pergunta que eu não tenha feito, que a resposta dela seja Sim e que diferencia\n"
-				+ "o animal dos outros.\n");
+		System.out.println("\n"
+				+ "|~| Olá " + jogador + "! Seja bem-vindo(a) ao QUIZ ANIMAL. Para jogar é muito simples, você vai pensar\n"
+				+ "|~| em um animal e eu vou tentar adivinhá-lo! Veja as INSTRUÇÕES:\n"
+				+ "|~| \n"
+				+ "|~| 1- Pense em um animal.\n"
+				+ "|~| 2- Responda as perguntas sobre o animal. Suas respostas podem ser 1 para Sim e 2 para Não.\n"
+				+ "|~| 3- Caso eu não consiga adivinhar, digite uma pergunta que eu não tenha feito, que a resposta dela seja Sim e que diferencia\n"
+				+ "|~| \t o animal dos outros.\n");
 
 		Resposta resposta = new Resposta();
 
@@ -35,43 +37,45 @@ public class Principal {
 		while(!terminou) {
 			int preparado = 0;
 			while(preparado != 1) {
-				System.out.print(jogador + ", pense em um animal e digite 1 para Continuar\n> ");
+				System.out.print("|>| " + jogador + ", pense em um animal e digite 1 para Continuar.\n> ");
 				preparado = scInt.nextInt();
 			}
 			File diretorio = new File("C:\\PSIVIA18-1"); 
 			File arquivo = new File(diretorio, "dados-perguntas.txt"); 
 			if(!arquivo.exists()) {
-				daoPergunta.gravarPergunta("Tem 4 patas?");
+				daoPergunta.gravarPergunta("Ele mia?");
 			}
 			AnimalDAO daoAnimal = new AnimalDAO();
 			arquivo = new File(diretorio, "dados-animais.txt");
 			if(!arquivo.exists()) {
 				Map<String,Boolean> atributos = new LinkedHashMap<>();
-				atributos.put("Tem 4 patas?", true);
+				atributos.put("Ele mia?", true);
 				Animal a = new Animal("Gato",atributos);
 				daoAnimal.gravarAnimal(a);
 			}
 			
 			String retorno = resposta.responder();
 			
-			System.out.println("~~~~~ É um " + retorno + "? ~~~~~");
-			System.out.println("1-Sim ou 2-Não\n> ");
+			System.out.println("---------------------------------");
+			System.out.println("   ~~~~~ É um " + retorno + "? ~~~~~");
+			System.out.println("---------------------------------");
+			
+			System.out.print("1-Sim ou 2-Não > ");
 			int resp = scInt.nextInt();
 			
 			while(resp != 1 && resp != 2) {
-				System.out.println("Por favor "+ jogador +", digite 1 para Sim ou 2 para Não\n> ");
+				System.out.print("Por favor "+ jogador +", digite 1 para Sim ou 2 para Não\n> ");
 				resp = scInt.nextInt();
 			}
 			
 			if(resp == 1) {
-				System.out.println("Eu acertei "+jogador+"! Viu como eu sou bom nisso? kkkkk");
-				System.out.println("Tente mais uma vez...");
+				System.out.println("|!| Eu acertei "+jogador+"! Viu como eu sou bom nisso? kkkkk");
 				terminou = true;
 			}else if(resp == 2){
-				System.out.println("Você ganhou dessa vez "+ jogador +"! rsrsrsrsrs");
-				System.out.println("Em que animal você estava pensando?\n>");
+				System.out.println("|(| Você ganhou dessa vez "+ jogador +"! rsrsrsrsrs");
+				System.out.print("|?| Em que animal você estava pensando?\n> ");
 				String nomeNovo = scString.nextLine();
-				System.out.println("Qual pergunta eu não fiz que diferencia seu animal do meu? (Lembre-se que a resposta para sua pergunta dever ser SIM)\n> ");
+				System.out.print("|?| Qual pergunta eu não fiz que diferencia seu animal do meu? (Lembre-se que a resposta para sua pergunta dever ser SIM)\n> ");
 
 				String novaChave = scString.nextLine();
 				boolean novoValor = true;
@@ -79,15 +83,25 @@ public class Principal {
 				Animal animal = new Animal(nomeNovo);
 				animal.setAtributo(novaChave, novoValor);
 				//animal.setAtributos(resposta.getNovosAtributos());
-
-				daoAnimal.atualizarAnimal(animal);
+				
 				daoPergunta.gravarPergunta(novaChave);
+				
+				Map<String, Boolean> novosAtributos = resposta.getNovosAtributos();
+				animal.setAtributos(novosAtributos);
+				Animal animalAux = daoAnimal.consultarAnimal(animal);
+				
+				if(animal.getNome().equals(animalAux.getNome())) {
+					daoAnimal.atualizarAnimal(animal);
+				}else {
+					daoAnimal.gravarAnimal(animal);
+				}
+				
 			}
 			
-			System.out.println("Vamos brincar de novo?\n> ");
+			System.out.print("|?| Vamos brincar de novo?\n> ");
 			resp = scInt.nextInt();
 			while(resp != 1 && resp != 2) {
-				System.out.println("Não entendi sua resposta. Digite 1 para Sim e 2 para Não.");
+				System.out.print("| | Não entendi sua resposta. Digite 1 para Sim e 2 para Não.\n> ");
 			}
 			if(resp == 1) {
 				terminou = false;
