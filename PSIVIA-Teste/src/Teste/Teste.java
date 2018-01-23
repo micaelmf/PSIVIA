@@ -10,9 +10,8 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 import DAO.AnimalDAO;
-import DAO.PerguntaDAOX;
+import DAO.PerguntaDAO;
 import Dominio.Animal;
-import Dominio.PerguntaX;
 import Dominio.Resposta;
 
 class Teste {
@@ -22,26 +21,26 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAOX daoPergunta = new PerguntaDAOX();
+		PerguntaDAO daoPergunta = new PerguntaDAO();
 		
-		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<String> perguntas = daoPergunta.carregaPerguntas();
 		Animal a = new Animal("Cachorro"); 
 		Animal animal = daoAnimal.carregaAnimal(a);
-		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
-		atributosDoAnimal = animal.getAtributos();
 		
-		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(PerguntaX p : perguntas) {
-			if(atributosDoAnimal.containsKey(p.getPergunta())) {
-				atributos.put(p.getPergunta(), true);
-			}else {
-				atributos.put(p.getPergunta(), false);
+		Map<String,Boolean> atributos = animal.getAtributos();
+		Map<String,Boolean> atributos2 = new LinkedHashMap<>();
+		
+		for(Map.Entry<String, Boolean> atributo : atributos.entrySet()) {
+			for(int i=0; i < atributos.size(); i++) {
+				if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(true)) {
+					atributos2.put(perguntas.get(i), true);
+				}else if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(false)){
+					atributos2.put(perguntas.get(i), false);
+				}
 			}
 		}
 		
-		resposta.setProcurar(animal.getNome());
-		resposta.setResposta(atributos);
-		String retorno = resposta.getResposta();   
+		String retorno = resposta.responder(animal.getNome(), atributos2);
 		
 		assertEquals(animal.getNome(), retorno);
 	}
@@ -51,26 +50,26 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAOX daoPergunta = new PerguntaDAOX();
+		PerguntaDAO daoPergunta = new PerguntaDAO();
 		
-		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
-		Animal a = new Animal("Gato");
+		ArrayList<String> perguntas = daoPergunta.carregaPerguntas();
+		Animal a = new Animal("Gato"); 
 		Animal animal = daoAnimal.carregaAnimal(a);
-		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
-		atributosDoAnimal = animal.getAtributos();
 		
-		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(PerguntaX p : perguntas) {
-			if(atributosDoAnimal.containsKey(p.getPergunta())) {
-				atributos.put(p.getPergunta(), true);
-			}else {
-				atributos.put(p.getPergunta(), false);
+		Map<String,Boolean> atributos = animal.getAtributos();
+		Map<String,Boolean> atributos2 = new LinkedHashMap<>();
+		
+		for(Map.Entry<String, Boolean> atributo : atributos.entrySet()) {
+			for(int i=0; i < atributos.size(); i++) {
+				if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(true)) {
+					atributos2.put(perguntas.get(i), true);
+				}else if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(false)){
+					atributos2.put(perguntas.get(i), false);
+				}
 			}
 		}
 		
-		resposta.setProcurar(animal.getNome());
-		resposta.setResposta(atributos);
-		String retorno = resposta.getResposta();   
+		String retorno = resposta.responder(animal.getNome(), atributos2);
 		
 		assertEquals(animal.getNome(), retorno);
 	}
@@ -80,26 +79,26 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAOX daoPergunta = new PerguntaDAOX();
+		PerguntaDAO daoPergunta = new PerguntaDAO();
 		
-		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
-		Animal a = new Animal("Galinha");
+		ArrayList<String> perguntas = daoPergunta.carregaPerguntas();
+		Animal a = new Animal("Galinha"); 
 		Animal animal = daoAnimal.carregaAnimal(a);
-		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
-		atributosDoAnimal = animal.getAtributos();
 		
-		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(PerguntaX p : perguntas) {
-			if(atributosDoAnimal.containsKey(p.getPergunta())) {
-				atributos.put(p.getPergunta(), true);
-			}else {
-				atributos.put(p.getPergunta(), false);
+		Map<String,Boolean> atributos = animal.getAtributos();
+		Map<String,Boolean> atributos2 = new LinkedHashMap<>();
+		
+		for(Map.Entry<String, Boolean> atributo : atributos.entrySet()) {
+			for(int i=0; i < atributos.size(); i++) {
+				if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(true)) {
+					atributos2.put(perguntas.get(i), true);
+				}else if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(false)){
+					atributos2.put(perguntas.get(i), false);
+				}
 			}
 		}
 		
-		resposta.setProcurar(animal.getNome());
-		resposta.setResposta(atributos);
-		String retorno = resposta.getResposta();   
+		String retorno = resposta.responder(animal.getNome(), atributos2);
 		
 		assertEquals(animal.getNome(), retorno);
 	}
@@ -109,29 +108,28 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAOX daoPergunta = new PerguntaDAOX();
+		PerguntaDAO daoPergunta = new PerguntaDAO();
 		
-		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
-		Animal a = new Animal("diferente");
+		ArrayList<String> perguntas = daoPergunta.carregaPerguntas();
+		Animal a = new Animal(); 
 		Animal animal = daoAnimal.carregaAnimal(a);
-		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
-		atributosDoAnimal = animal.getAtributos();
 		
-		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(PerguntaX p : perguntas) {
-			if(atributosDoAnimal.containsKey(p.getPergunta())) {
-				atributos.put(p.getPergunta(), true);
-			}else {
-				atributos.put(p.getPergunta(), false);
+		Map<String,Boolean> atributos = animal.getAtributos();
+		Map<String,Boolean> atributos2 = new LinkedHashMap<>();
+		
+		for(Map.Entry<String, Boolean> atributo : atributos.entrySet()) {
+			for(int i=0; i < atributos.size(); i++) {
+				if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(true)) {
+					atributos2.put(perguntas.get(i), true);
+				}else if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(false)){
+					atributos2.put(perguntas.get(i), false);
+				}
 			}
 		}
 		
-		resposta.setProcurar(animal.getNome());
-		resposta.setResposta(atributos);
-		String retorno = resposta.getResposta();   
+		String retorno = resposta.responder(animal.getNome(), atributos2);
 		
-		assertNotEquals(animal.getNome(), retorno);
-		
+		assertNotEquals("Diferente", retorno);
 	}
 	
 	@Test
@@ -139,9 +137,9 @@ class Teste {
 		Resposta resposta = new Resposta();
 		
 		AnimalDAO daoAnimal = new AnimalDAO();
-		PerguntaDAOX daoPergunta = new PerguntaDAOX();
+		PerguntaDAO daoPergunta = new PerguntaDAO();
 		
-		ArrayList<PerguntaX> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<String> perguntas = daoPergunta.carregaPerguntas();
 		Random random = new Random();
 		
 		int numAleatorio = random.nextInt();
@@ -149,21 +147,21 @@ class Teste {
 		
 		Animal a = new Animal(codigo);
 		Animal animal = daoAnimal.carregaAnimal(a);
-		Map<String,Boolean> atributosDoAnimal = new LinkedHashMap<>();
-		atributosDoAnimal = animal.getAtributos();
 		
-		Map<String,Boolean> atributos = new LinkedHashMap<>();
-		for(PerguntaX p : perguntas) {
-			if(atributosDoAnimal.containsKey(p.getPergunta())) {
-				atributos.put(p.getPergunta(), true);
-			}else {
-				atributos.put(p.getPergunta(), false);
+		Map<String,Boolean> atributos = animal.getAtributos();
+		Map<String,Boolean> atributos2 = new LinkedHashMap<>();
+		
+		for(Map.Entry<String, Boolean> atributo : atributos.entrySet()) {
+			for(int i=0; i < atributos.size(); i++) {
+				if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(true)) {
+					atributos2.put(perguntas.get(i), true);
+				}else if(atributo.getKey().equals(perguntas.get(i)) && atributo.getValue().equals(false)){
+					atributos2.put(perguntas.get(i), false);
+				}
 			}
 		}
 		
-		resposta.setProcurar(animal.getNome());
-		resposta.setResposta(atributos);
-		String retorno = resposta.getResposta();
+		String retorno = resposta.responder(animal.getNome(), atributos);
 		
 		boolean resultado = false;
 		Map<String,Boolean> novosAtributos = new LinkedHashMap<>();

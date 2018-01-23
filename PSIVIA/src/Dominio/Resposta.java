@@ -14,6 +14,54 @@ public class Resposta {
 	boolean seguir = true;
 	private Scanner scan;
 	
+	public String responder(String nomeAnimal, Map<String, Boolean> atributos) {
+		PerguntaDAO daoPergunta = new PerguntaDAO();
+		AnimalDAO daoAnimal = new AnimalDAO();
+		ArrayList<String> perguntas = daoPergunta.carregaPerguntas();
+		ArrayList<String> perguntasFeitas = new ArrayList<>();
+		ArrayList<Animal> animais = daoAnimal.carregarAnimais();
+		ArrayList<Animal> animaisAux = new ArrayList<Animal>(animais);
+		scan = new Scanner(System.in);
+		for(int i = 0; i < animais.size(); i++) {
+			Animal animal = animais.get(i);
+			if(animaisAux.contains(animal)) {
+				for(String pergunta : perguntas) {
+					Map<String,Boolean> ss = animal.getAtributos();
+					int resposta = 0;
+					if(ss.containsKey(pergunta) && !perguntasFeitas.contains(pergunta) && !animais.isEmpty()) {
+						perguntasFeitas.add(pergunta);
+						System.out.print("|?| " + animal.getNome() + " " + pergunta + "? > ");
+						System.out.println("\n");
+						if(atributos.containsKey(pergunta)) {
+							boolean valor = atributos.get(pergunta);
+							if(valor == true) {
+								resposta = 1;
+							}else if(valor == false) {
+								resposta = 2;
+							}
+						}else {
+							resposta = 2;
+						}
+						
+						animaisAux = retornarOsVerdadeiros(animais,pergunta,resposta);
+						
+					}else if(ss.isEmpty() && animais.contains(animal)){
+						//System.out.println(animal.getNome() + "" + pergunta + " Decartado (fora)");
+						animais.remove(animal);
+						ultimoRemovido = animal;
+					}
+				}
+			}
+			if(animais.size() == 1) {
+				return animais.get(0).getNome();
+			}
+			if(animais.isEmpty()) {
+				return this.ultimoRemovido.getNome();
+			}
+		}
+		return animais.get(0).getNome();
+	}
+	
 	public String responder() {
 		PerguntaDAO daoPergunta = new PerguntaDAO();
 		AnimalDAO daoAnimal = new AnimalDAO();
