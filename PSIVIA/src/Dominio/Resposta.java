@@ -14,6 +14,7 @@ public class Resposta {
 	boolean seguir = true;
 	private Scanner scan;
 	
+	//usado no teste
 	public String responder(String nomeAnimal, Map<String, Boolean> atributos) {
 		PerguntaDAO daoPergunta = new PerguntaDAO();
 		AnimalDAO daoAnimal = new AnimalDAO();
@@ -62,6 +63,7 @@ public class Resposta {
 		return animais.get(0).getNome();
 	}
 	
+	//usado no principal
 	public String responder() {
 		PerguntaDAO daoPergunta = new PerguntaDAO();
 		AnimalDAO daoAnimal = new AnimalDAO();
@@ -109,10 +111,7 @@ public class Resposta {
 			Animal proxAnimal = animais.get(j);
 			Boolean atributo = proxAnimal.getAtributos().get(pergunta);
 			//System.out.print(proxAnimal.getNome() + " " + pergunta);
-			/*
-			 * se a resposta é 1 - remover animais que contenham a chave e que o valor seja falso
-			 * se a resposta é 2 - remover animais que contenham a chave e que o valor seja true
-			 */
+
 			if(atributo != null) {
 				if(resposta == 1 && atributo == false || resposta == 2 && atributo == true || animais.isEmpty()) {
 					//System.out.println(" Decartado 1");
@@ -161,14 +160,6 @@ public class Resposta {
 			this.seguir = false;
 		}
 		return animais;
-	}
-
-	public void imprimirClassificados(String[][] matriz) {
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz.length; j++) {
-				System.out.println(matriz[i][j]);
-			}
-		}
 	}
 
 	public Map<String, Boolean> getNovosAtributos() {
