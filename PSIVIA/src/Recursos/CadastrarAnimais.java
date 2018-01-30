@@ -1,10 +1,5 @@
 package Recursos;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import DAO.AnimalDAO;
-import Dominio.Animal;
 import Dominio.Resposta;
 
 public class CadastrarAnimais {
